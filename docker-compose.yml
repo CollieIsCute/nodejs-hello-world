@@ -1,0 +1,25 @@
+version: '3'
+services:
+    my_node:
+        container_name: my_node
+        build: ./my_node
+        networks:
+            - mango_channel
+        depends_on:
+            - my_db
+        ports:
+            - 8081:8081
+        restart: unless-stopped
+    my_db:
+        container_name: my_db
+        image: mongo
+        volumes:
+            - ./my_db:/data/db
+        networks:
+            - mango_channel
+        ports:
+            - 27017
+        restart: unless-stopped
+networks:
+    mango_channel:
+        driver: bridge
